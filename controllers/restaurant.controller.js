@@ -1,5 +1,4 @@
 const Restaurant = require("../models/restaurant.model");
-const converter = require("../utils/objectConverter");
 
 exports.create = async (req, res) => {
   try {
@@ -74,16 +73,16 @@ exports.getAllRestaurantsById = async (req, res) => {
     const restaurant = await Restaurant.find({ _id: id });
 
     if (!restaurant.length) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No Restaurant found with the given ID",
       });
     }
     res.status(200).json(restaurant);
   } catch (error) {
-    console.log("Some error occurred while fetching Categories");
+    console.log("Some error occurred while fetching  Restaurant");
 
     res.status(500).json({
-      message: "Some error occurred while fetching Categories",
+      message: "Some error occurred while fetching  Restaurant",
     });
   }
 };
@@ -96,10 +95,59 @@ exports.getAllRestaurantsByRatings = async (req, res) => {
 
     res.status(200).json(restaurants);
   } catch (error) {
-    console.log("Some error occurred while fetching Categories");
+    console.log("Some error occurred while fetching  Restaurant");
 
     res.status(500).json({
-      message: "Some error occurred while fetching Categories",
+      message: "Some error occurred while fetching  Restaurant",
+    });
+  }
+};
+
+exports.update = async (req, res) => {
+  try {
+    if (!Object.keys(req.body).length) {
+      return res.status(400).json({
+        message: "Restaurant Data is required",
+      });
+    }
+
+    const id = req.params.id;
+
+    const restaurant = await Restaurant.findOne({ _id: id });
+
+    if (!restaurant) {
+      return res.status(404).json({
+        message: "No Restaurant found with the given ID",
+      });
+    }
+
+    restaurant.name =
+      req.body.name != undefined ? req.body.name : restaurant.name;
+    restaurant.descripton =
+      req.body.descripton != undefined
+        ? req.body.descripton
+        : restaurant.descripton;
+    restaurant.category =
+      req.body.category != undefined ? req.body.category : restaurant.category;
+    restaurant.imageURL =
+      req.body.imageURL != undefined ? req.body.imageURL : restaurant.imageURL;
+    restaurant.location =
+      req.body.location != undefined ? req.body.location : restaurant.location;
+    restaurant.phone =
+      req.body.phone != undefined ? req.body.phone : restaurant.phone;
+    restaurant.rating =
+      req.body.rating != undefined ? req.body.rating : restaurant.rating;
+
+    await restaurant.save();
+
+    res.status(200).json({
+      message: "Restaurant updated succcessfully",
+    });
+  } catch (error) {
+    console.log("Some Internal error " + error);
+
+    res.status(500).json({
+      message: "Some error occured  while creating the Restaurant",
     });
   }
 };
