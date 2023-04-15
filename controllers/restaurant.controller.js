@@ -87,3 +87,19 @@ exports.getAllRestaurantsById = async (req, res) => {
     });
   }
 };
+
+exports.getAllRestaurantsByRatings = async (req, res) => {
+  try {
+    const rating = req.params.rating;
+
+    const restaurants = await Restaurant.find({ rating: { $gte: rating } });
+
+    res.status(200).json(restaurants);
+  } catch (error) {
+    console.log("Some error occurred while fetching Categories");
+
+    res.status(500).json({
+      message: "Some error occurred while fetching Categories",
+    });
+  }
+};
