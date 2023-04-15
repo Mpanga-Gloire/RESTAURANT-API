@@ -16,4 +16,6 @@ restaurantRouter.get(
   restaurantController.getRestaurantsByCategory
 );
 
+restaurantRouter.get("/:id", restaurantController.getAllRestaurantsById);
+
 module.exports = restaurantRouter;

@@ -67,3 +67,23 @@ exports.getRestaurantsByCategory = async (req, res) => {
     });
   }
 };
+
+exports.getAllRestaurantsById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const restaurant = await Restaurant.find({ _id: id });
+
+    if (!restaurant.length) {
+      res.status(404).json({
+        message: "No Restaurant found with the given ID",
+      });
+    }
+    res.status(200).json(restaurant);
+  } catch (error) {
+    console.log("Some error occurred while fetching Categories");
+
+    res.status(500).json({
+      message: "Some error occurred while fetching Categories",
+    });
+  }
+};
