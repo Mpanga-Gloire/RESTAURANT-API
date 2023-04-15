@@ -25,4 +25,8 @@ restaurantRouter.get(
 
 restaurantRouter.put("/:id", restaurantController.update);
 
+restaurantRouter.delete("/:id", restaurantController.deleteOne);
+
+restaurantRouter.delete("/", restaurantController.delete);
+
 module.exports = restaurantRouter;

@@ -151,3 +151,39 @@ exports.update = async (req, res) => {
     });
   }
 };
+
+exports.deleteOne = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const restaurant = await Restaurant.findOneAndDelete({ _id: id });
+
+    res.status(200).json({
+      restaurant,
+      message: "Restaurant deleted successfully",
+    });
+  } catch (error) {
+    console.log("Some Internal error " + error);
+
+    res.status(500).json({
+      message: "Some error occured  while deleting the Restaurant",
+    });
+  }
+};
+
+exports.delete = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.deleteMany();
+
+    res.status(200).json({
+      restaurant,
+      message: "Restaurant deleted successfully",
+    });
+  } catch (error) {
+    console.log("Some Internal error " + error);
+
+    res.status(500).json({
+      message: "Some error occured  while deleting the Restaurant",
+    });
+  }
+};
