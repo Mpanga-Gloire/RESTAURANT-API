@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  * ROUTERS
  */
 
-app.use("/api", restaurantRouter);
+app.use("/api/restaurant", restaurantRouter);
 
 /**
  * ROUTERS

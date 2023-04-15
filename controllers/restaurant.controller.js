@@ -1,4 +1,5 @@
 const Restaurant = require("../models/restaurant.model");
+const converter = require("../utils/objectConverter");
 
 exports.create = async (req, res) => {
   try {
@@ -32,6 +33,37 @@ exports.getAllRestaurants = async (req, res) => {
 
     res.status(500).json({
       message: "Some error occured while fetching the Restaurants.",
+    });
+  }
+};
+
+exports.getRestaurantsByCategories = async (req, res) => {
+  try {
+    const categories = await Restaurant.find({}, { category: 1 });
+
+    res.status(200).json(converter.categoriesConverter(categories));
+  } catch (error) {
+    console.log("Some error occurred while fetching Categories");
+
+    res.status(500).json({
+      message: "Some error occurred while fetching Categories",
+    });
+  }
+};
+
+exports.getRestaurantsByCategory = async (req, res) => {
+  try {
+    const categoryName = req.params.categoryName;
+    const restaurants = await Restaurant.find({
+      category: categoryName,
+    }).collation({ locale: "en", strength: 2 });
+
+    res.status(200).json(restaurants);
+  } catch (error) {
+    console.log("Some error occurred while fetching Categories");
+
+    res.status(500).json({
+      message: "Some error occurred while fetching Categories",
     });
   }
 };
