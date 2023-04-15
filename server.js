@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dbConfigs = require("./configs/db.configs");
-const createRouter = require("./routes/create.route");
+const restaurantRouter = require("./routes/restaurant.routes");
 
 mongoose.connect(dbConfigs.DB_URL);
 
@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  * ROUTERS
  */
 
-app.use("/api", createRouter);
+app.use("/api", restaurantRouter);
 
 /**
  * ROUTERS

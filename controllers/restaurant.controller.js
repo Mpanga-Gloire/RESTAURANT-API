@@ -18,3 +18,20 @@ exports.create = async (req, res) => {
     });
   }
 };
+
+exports.getAllRestaurants = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find();
+
+    res.status(200).json({
+      restaurants,
+      message: "Restaurants fetched successfully",
+    });
+  } catch (error) {
+    console.log("Some error occured while fetching the Restaurants.");
+
+    res.status(500).json({
+      message: "Some error occured while fetching the Restaurants.",
+    });
+  }
+};
